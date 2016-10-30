@@ -3,6 +3,7 @@ module FbGraph2
     include Edge::Admins
     include Edge::Albums
     include Edge::Blocked
+    include Edge::Conversations
     include Edge::Events
     include Edge::Feed
     include Edge::GlobalBrandChildren
@@ -15,6 +16,7 @@ module FbGraph2
     include Edge::Photos
     include Edge::Posts
     include Edge::PromotablePosts
+    include Edge::Ratings
     include Edge::Roles::PageContext
     include Edge::Settings
     include Edge::Statuses
@@ -44,6 +46,7 @@ module FbGraph2
         # NOTE: only as Struct::Education#classes and Struct::Work#projects
         :with
       ],
+      location: [:location],
       custom: [
         :category_list, :context, :location, :parking, :restaurant_services, :restaurant_specialties,
         # NOTE: undocumented
@@ -60,9 +63,6 @@ module FbGraph2
       end
       if attributes.include? :context
         self.context = Struct::Context::PageContext.new attributes[:context]
-      end
-      if attributes.include? :location
-        self.location = Struct::Location.new attributes[:location]
       end
       if attributes.include? :parking
         self.parking = Struct::Parking.new attributes[:parking]

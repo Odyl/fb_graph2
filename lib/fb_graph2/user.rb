@@ -7,6 +7,7 @@ module FbGraph2
     include Edge::Applications
     include Edge::AppRequests
     include Edge::Books
+    include Edge::Domains
     include Edge::Events
     include Edge::Family
     include Edge::Feed
@@ -23,6 +24,7 @@ module FbGraph2
     include Edge::Movies
     include Edge::Music
     include Edge::Notifications
+    include Edge::OpenGraph::Actions
     include Edge::Outbox
     include Edge::PaymentTransactions
     include Edge::Permissions
@@ -41,9 +43,10 @@ module FbGraph2
 
     register_attributes(
       raw: [
-        :about, :bio, :email, :first_name, :gender, :installed, :is_verified, :last_name, :link, :locale,
-        :middle_name, :name, :name_format, :political, :quotes, :relationship_status, :religion,
-        :timezone, :third_party_id, :token_for_business, :verified, :website,
+        :about, :bio, :email, :first_name, :gender, :install_type, :installed, :interested_in, :is_eligible_promo,
+        :is_shared_login, :is_verified, :last_name, :link, :locale, :meeting_for, :middle_name, :name, :name_format,
+        :political, :quotes, :relationship_status, :religion, :test_group, :third_party_id, :timezone, :token_for_business,
+        :verified, :viewer_can_send_gift, :website,
         # NOTE: in family edge context
         :relationship,
         # NOTE: in page admin context
@@ -51,24 +54,30 @@ module FbGraph2
         # NOTE: in group context
         :administrator,
         # NOTE: in photo tags context
-        :x, :y
+        :x, :y,
+        # NOTE: in event-related context
+        :rsvp_status
       ],
       time: [
-        # NOTE: undocumented attribute
         :updated_time,
+        :shared_login_upgrade_required_by,
         # NOTE: in photo tags context
-        :created_time
+        :created_time,
       ],
       date: [:birthday],
       page: [:hometown, :location],
-      pages: [:favorite_athletes, :favorite_teams, :inspirational_people, :languages],
+      pages: [:favorite_athletes, :favorite_teams, :inspirational_people, :languages, :sports],
       user: [
         :significant_other,
         # NOTE: in photo tags context
         :tagging_user
       ],
       photo: [:cover],
-      custom: [:age_range, :context, :currency, :devices, :education, :work]
+      location: [:address],
+      custom: [
+        :age_range, :context, :currency, :devices, :education, :payment_mobile_pricepoints, :payment_pricepoints,
+        :security_settings, :suggested_groups, :video_upload_limits, :work
+      ]
     )
 
     def initialize(id, attributes = {})
